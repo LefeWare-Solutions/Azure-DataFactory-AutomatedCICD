@@ -1,0 +1,28 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'lws-d-azdevops-serviceconnection'
+    subscriptionId: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'lws-goasy-poc-cus-rg'
+    location: 'Central US'
+    templateLocation: 'Linked artifact'
+    csmFile: './ARMTemplateForFactory.json'
+    csmParametersFile: './ARMTemplateParametersForFactory.json'
+    deploymentMode: 'Incremental'
