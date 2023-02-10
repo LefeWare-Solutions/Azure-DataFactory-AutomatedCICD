@@ -12,7 +12,7 @@
 				}
 			},
 			{
-				"name": "Script1",
+				"name": "Script2",
 				"type": "Script",
 				"dependsOn": [],
 				"policy": {
