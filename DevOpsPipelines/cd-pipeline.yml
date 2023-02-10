@@ -10,13 +10,13 @@ steps:
       artifactName: 'ADF-ARMTemplates-$(Build.BuildNumber)'
       targetPath: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)'
 
-  - task: toggle-adf-trigger@2
-    inputs:
-      azureSubscription: ${{ parameters.azureSubscription }}
-      ResourceGroupName: '$(resource_group_name)'
-      DatafactoryName: '$(azure_data_factory_name)'
-      TriggerFilter: 'Dataload_Trigger'
-      TriggerStatus: 'stop'
+  # - task: toggle-adf-trigger@2
+  #   inputs:
+  #     azureSubscription: ${{ parameters.azureSubscription }}
+  #     ResourceGroupName: '$(resource_group_name)'
+  #     DatafactoryName: '$(azure_data_factory_name)'
+  #     TriggerFilter: 'Dataload_Trigger'
+  #     TriggerStatus: 'stop'
 
   - task: AzureResourceManagerTemplateDeployment@3
     inputs:
