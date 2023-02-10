@@ -1,0 +1,56 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: "publish_adf_artifact"
+    displayName: Publish ADF Artifact
+    jobs:
+      - job: 'ci'
+        steps:
+          - checkout: self
+          - template: ./ci-pipeline.yml
+
+  - stage: "deploy_adf_dev"
+    displayName: Deploy ADF Dev
+    variables:
+      - name: respirce_group_name
+        value: 'lws-goasy-poc-cus-rg'
+      - name: azure_data_factory_name
+        value: 'lws-goasy-poc-cus-factory'
+      - name: azureSubscription
+        value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+      - template: ./cd-pipeline.yml
+    jobs:
+      - deployment: 'dev'
+        environment: 'dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: ./deployment-steps.yml
+                  parameters:
+                    azureSubscription: lws-d-azdevops-serviceconnection
+
+  - stage: "deploy_adf_stg"
+    displayName: Deploy ADF Stg
+    variables:
+      - name: respirce_group_name
+        value: 'lws-goasy-poc-cus-rg'
+      - name: azure_data_factory_name
+        value: 'lws-goasy-poc-cus-factory'
+      - name: azureSubscription
+        value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+      - template: ./cd-pipeline.yml
+    jobs:
+      - deployment: 'stg'
+        environment: 'stg'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: ./deployment-steps.yml
+                  parameters:
+                    azureSubscription: lws-d-azdevops-serviceconnection                    

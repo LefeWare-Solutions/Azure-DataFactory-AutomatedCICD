@@ -1,0 +1,58 @@
+# Sample YAML file to validate and export an ARM template into a build artifact
+# Requires a package.json file located in the target repository
+
+trigger:
+- main #collaboration branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - name: subscriptionId 
+    value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+  - name: resourceGroupName
+    value: 'lws-goasy-poc-cus-rg'
+  - name: factoryName 
+    value: 'lws-goasy-poc-cus-factory'
+  - name: adf_code_path
+    value: "$(Build.SourcesDirectory)/FactoryResources"
+  - name: adf_package_file_path
+    value: "$(Build.SourcesDirectory)/DevOpsPipelines/"
+
+steps:
+# Installs Node and the npm packages saved in your package.json file in the build
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: '$(adf_packages_file_path)'
+    verbose: true
+  displayName: 'Install npm package'
+
+# Validates all of the Data Factory resources in the repository. You'll get the same validation errors as when "Validate All" is selected.
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: '$(adf_packages_file_path)'
+    customCommand: 'run build validate $(adf_code_path) /subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(factoryName)'
+  displayName: 'Validate'
+
+# Validate and then generate the ARM template into the destination folder, which is the same as selecting "Publish" from the UX.
+# The ARM template generated isn't published to the live version of the factory. Deployment should be done by using a CI/CD pipeline. 
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: '$(adf_packages_file_path)'
+    customCommand: 'run build export $(adf_code_path) /subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(factoryName) "ArmTemplate"'
+  displayName: 'Validate and Generate ARM template'
+
+# Publish the artifact to be used as a source for a release pipeline.
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.SourcesDirectory)/ArmTemplate' #replace with the package.json folder
+    artifact: 'ADF-ArmTemplates-$(Build.BuildId)'
+    publishLocation: 'pipeline'

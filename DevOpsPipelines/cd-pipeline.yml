@@ -1,0 +1,41 @@
+parameters:
+- name: 'azureSubscription'
+  type: string
+  default: false
+
+steps:
+  - task: DownloadPipelineArtifact@2
+    displayName: Download Build Artifacts - ADF ARM templates
+    inputs: 
+      artifactName: 'ADF-ARMTemplates-$(Build.BuildNumber)'
+      targetPath: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)'
+
+  - task: toggle-adf-trigger@2
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscription }}
+      ResourceGroupName: '$(resource_group_name)'
+      DatafactoryName: '$(azure_data_factory_name)'
+      TriggerFilter: 'Dataload_Trigger'
+      TriggerStatus: 'stop'
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    inputs:
+      deploymentScope: 'Resource Group'
+      azureResourceManagerConnection: ${{ parameters.azureSubscription }}
+      subscriptionId: '$(azure_subscription_id)'
+      action: 'Create Or Update Resource Group'
+      resourceGroupName: '$(resource_group_name)'
+      location: 'central--us'
+      templateLocation: 'Linked artifact'
+      csmFile: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)/ARMTemplateForFactory.json'
+      csmParametersFile: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)/ARMTemplateParametersForFactory.json'
+      overrideParameters: '-factoryName "$(azure_data_factory_name)"'
+      deploymentMode: 'Incremental'
+
+  - task: toggle-adf-trigger@2
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscription }}
+      ResourceGroupName: '$(resource_group_name)'
+      DatafactoryName: '$(azure_data_factory_name)'
+      TriggerFilter: 'Dataload_Trigger'
+      TriggerStatus: 'start'
