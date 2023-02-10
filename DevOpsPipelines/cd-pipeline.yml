@@ -32,10 +32,10 @@ steps:
       overrideParameters: '-factoryName "$(azure_data_factory_name)"'
       deploymentMode: 'Incremental'
 
-  - task: toggle-adf-trigger@2
-    inputs:
-      azureSubscription: ${{ parameters.azureSubscription }}
-      ResourceGroupName: '$(resource_group_name)'
-      DatafactoryName: '$(azure_data_factory_name)'
-      TriggerFilter: 'Dataload_Trigger'
-      TriggerStatus: 'start'
+  # - task: toggle-adf-trigger@2
+  #   inputs:
+  #     azureSubscription: ${{ parameters.azureSubscription }}
+  #     ResourceGroupName: '$(resource_group_name)'
+  #     DatafactoryName: '$(azure_data_factory_name)'
+  #     TriggerFilter: 'Dataload_Trigger'
+  #     TriggerStatus: 'start'
