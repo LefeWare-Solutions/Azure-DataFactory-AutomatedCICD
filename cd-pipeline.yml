@@ -18,7 +18,7 @@ steps:
   inputs:
     deploymentScope: 'Resource Group'
     azureResourceManagerConnection: 'lws-d-azdevops-serviceconnection'
-    subscriptionId: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+    subscriptionId: '2dc9c519-7c91-42b6-a530-8a7d765267f6'
     action: 'Create Or Update Resource Group'
     resourceGroupName: 'lws-goasy-poc-cus-rg'
     location: 'Central US'
