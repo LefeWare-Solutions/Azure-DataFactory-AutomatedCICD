@@ -1,7 +1,7 @@
 parameters:
-- name: 'azureSubscription'
-  type: string
-  default: false
+  - name: 'azureSubscription'
+    type: string
+    default: false
 
 steps:
   - task: DownloadPipelineArtifact@2
