@@ -13,7 +13,7 @@ variables:
     value: 'lws-goasy-poc-cus-factory'
   - name: adf_code_path
     value: "$(Build.SourcesDirectory)/FactoryResources"
-  - name: adf_package_file_path
+  - name: adf_packages_file_path
     value: "$(Build.SourcesDirectory)/DevOpsPipelines/"
 
 
