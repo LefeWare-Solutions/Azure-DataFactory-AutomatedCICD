@@ -21,7 +21,7 @@ steps:
   - task: AzureResourceManagerTemplateDeployment@3
     inputs:
       deploymentScope: 'Resource Group'
-      azureResourceManagerConnection: ${{ parameters.serviceConnectionName }}
+      azureResourceManagerConnection: lws-poc-ado-sp
       subscriptionId: '$(azure_subscription_id)'
       action: 'Create Or Update Resource Group'
       resourceGroupName: '$(resource_group_name)'
