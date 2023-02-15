@@ -33,5 +33,5 @@ steps:
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: '$(Build.SourcesDirectory)/DevOpsPipelines/ArmTemplate' #replace with the package.json folder
-      artifact: 'ADF-ArmTemplates-$(Build.BuildId)'
+      artifact: 'ADF-ArmTemplates-$(Build.BuildNumber)'
       publishLocation: 'pipeline'

@@ -1,5 +1,7 @@
+name: $(major).$(minor).$(Rev:r)
+
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
