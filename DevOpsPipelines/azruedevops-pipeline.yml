@@ -47,7 +47,7 @@ stages:
               steps:
                 - template: ./cd-pipeline.yml
                   parameters:
-                    serviceConnectionName: lws-d-azdevops-serviceconnection
+                    serviceConnectionName: lws-poc-ado-sp
 
   - stage: "deploy_adf_stg"
     displayName: Deploy ADF Stg
@@ -67,4 +67,4 @@ stages:
               steps:
                 - template: ./cd-pipeline.yml
                   parameters:
-                    serviceConnectionName: lws-d-azdevops-serviceconnection                    
+                    serviceConnectionName: lws-poc-ado-sp                    
