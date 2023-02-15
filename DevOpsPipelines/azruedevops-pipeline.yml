@@ -1,4 +1,4 @@
-name: $(major).$(minor).$(Rev:r)
+name: 1.1.$(Rev:r)
 
 trigger:
   - main
@@ -7,12 +7,6 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - name: subscriptionId 
-    value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
-  - name: resourceGroupName
-    value: 'lws-goasy-poc-cus-rg'
-  - name: factoryName 
-    value: 'lws-goasy-poc-cus-factory'
   - name: adf_code_path
     value: "$(Build.SourcesDirectory)/FactoryResources"
   - name: adf_packages_file_path
@@ -22,6 +16,13 @@ variables:
 stages:
   - stage: "publish_adf_artifact"
     displayName: Publish ADF Artifact
+    variables:
+      - name: subscriptionId 
+        value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+      - name: resourceGroupName
+        value: 'lws-goasy-poc-cus-rg'
+      - name: factoryName 
+        value: 'lws-goasy-poc-cus-factory'
     jobs:
       - job: 'ci'
         steps:
@@ -46,7 +47,7 @@ stages:
               steps:
                 - template: ./cd-pipeline.yml
                   parameters:
-                    azureSubscription: lws-d-azdevops-serviceconnection
+                    serviceConnectionName: lws-d-azdevops-serviceconnection
 
   - stage: "deploy_adf_stg"
     displayName: Deploy ADF Stg
@@ -66,4 +67,4 @@ stages:
               steps:
                 - template: ./cd-pipeline.yml
                   parameters:
-                    azureSubscription: lws-d-azdevops-serviceconnection                    
+                    serviceConnectionName: lws-d-azdevops-serviceconnection                    

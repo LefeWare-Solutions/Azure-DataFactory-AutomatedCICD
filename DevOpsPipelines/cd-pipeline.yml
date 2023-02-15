@@ -1,5 +1,5 @@
 parameters:
-  - name: 'azureSubscription'
+  - name: 'serviceConnectionName'
     type: string
     default: false
 
@@ -12,7 +12,7 @@ steps:
 
   # - task: toggle-adf-trigger@2
   #   inputs:
-  #     azureSubscription: ${{ parameters.azureSubscription }}
+  #     azureSubscription: ${{ parameters.serviceConnectionName }}
   #     ResourceGroupName: '$(resource_group_name)'
   #     DatafactoryName: '$(azure_data_factory_name)'
   #     TriggerFilter: 'Dataload_Trigger'
@@ -21,7 +21,7 @@ steps:
   - task: AzureResourceManagerTemplateDeployment@3
     inputs:
       deploymentScope: 'Resource Group'
-      azureResourceManagerConnection: ${{ parameters.azureSubscription }}
+      azureResourceManagerConnection: ${{ parameters.serviceConnectionName }}
       subscriptionId: '$(azure_subscription_id)'
       action: 'Create Or Update Resource Group'
       resourceGroupName: '$(resource_group_name)'
@@ -34,7 +34,7 @@ steps:
 
   # - task: toggle-adf-trigger@2
   #   inputs:
-  #     azureSubscription: ${{ parameters.azureSubscription }}
+  #     azureSubscription: ${{ parameters.serviceConnectionName }}
   #     ResourceGroupName: '$(resource_group_name)'
   #     DatafactoryName: '$(azure_data_factory_name)'
   #     TriggerFilter: 'Dataload_Trigger'
