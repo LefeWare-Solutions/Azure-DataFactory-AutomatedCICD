@@ -67,4 +67,4 @@ stages:
               steps:
                 - template: ./cd-pipeline.yml
                   parameters:
-                    serviceConnectionName: lws-poc-ado-sp                    
+                    serviceConnectionName: lws-poc-ado-sp                     
