@@ -16,7 +16,7 @@ stages:
   - stage: "publish_adf_artifact"
     displayName: Publish ADF Artifact
     variables:
-      - name: subscriptionId 
+      - name: azureSubscriptionId 
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
       - name: dfResourceGroupName
         value: 'lws-goeasy-poc-cus-rg'
@@ -35,7 +35,7 @@ stages:
         value: 'lws-goeasy-poc-cus-rg'
       - name: azure_data_factory_name
         value: 'lws-goeasy-poc-cus-factory'
-      - name: azureSubscription
+      - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
     jobs:
       - deployment: 'dev'
@@ -55,7 +55,7 @@ stages:
         value: 'lws-goeasy-test-cus-rg'
       - name: azure_data_factory_name
         value: 'lws-goeasy-test-cus-factory'
-      - name: azureSubscription
+      - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
     jobs:
       - deployment: 'stg'

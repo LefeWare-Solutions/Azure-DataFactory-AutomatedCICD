@@ -22,7 +22,7 @@ steps:
     inputs:
       deploymentScope: 'Resource Group'
       azureResourceManagerConnection: lws-poc-ado-sp
-      subscriptionId: '$(azure_subscription_id)'
+      subscriptionId: '$(azureSubscriptionId)'
       action: 'Create Or Update Resource Group'
       resourceGroupName: '$(resource_group_name)'
       location: $(location)
