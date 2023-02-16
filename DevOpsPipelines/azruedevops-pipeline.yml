@@ -54,7 +54,7 @@ stages:
     dependsOn: ["deploy_adf_dev"]
     variables:
       - name: resource_group_name
-        value: 'lws-goasy-test-cus-rg'
+        value: 'lws-goeasy-test-cus-rg'
       - name: azure_data_factory_name
         value: 'lws-goeasy-test-cus-factory'
       - name: azureSubscriptionId
