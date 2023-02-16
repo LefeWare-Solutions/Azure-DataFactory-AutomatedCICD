@@ -30,6 +30,7 @@ stages:
 
   - stage: "deploy_adf_dev"
     displayName: Deploy ADF Dev
+    dependsOn: ["publish_adf_artifact"]
     variables:
       - name: resource_group_name
         value: 'lws-goasy-poc-cus-rg'
@@ -50,6 +51,7 @@ stages:
 
   - stage: "deploy_adf_stg"
     displayName: Deploy ADF Stg
+    dependsOn: ["deploy_adf_dev"]
     variables:
       - name: resource_group_name
         value: 'lws-goeasy-test-cus-rg'
