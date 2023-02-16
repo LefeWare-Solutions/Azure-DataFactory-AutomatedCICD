@@ -19,7 +19,7 @@ stages:
       - name: azureSubscriptionId 
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
       - name: dfResourceGroupName
-        value: 'lws-goeasy-poc-cus-rg'
+        value: 'lws-goasy-poc-cus-rg'
       - name: factoryName 
         value: 'lws-goeasy-poc-cus-factory'
     jobs:
@@ -32,7 +32,7 @@ stages:
     displayName: Deploy ADF Dev
     variables:
       - name: resource_group_name
-        value: 'lws-goeasy-poc-cus-rg'
+        value: 'lws-goasy-poc-cus-rg'
       - name: azure_data_factory_name
         value: 'lws-goeasy-poc-cus-factory'
       - name: azureSubscriptionId
