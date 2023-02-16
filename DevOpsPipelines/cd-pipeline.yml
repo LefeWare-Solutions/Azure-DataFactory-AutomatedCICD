@@ -25,7 +25,7 @@ steps:
       subscriptionId: '$(azure_subscription_id)'
       action: 'Create Or Update Resource Group'
       resourceGroupName: '$(resource_group_name)'
-      location: 'central-us'
+      location: $(location)
       templateLocation: 'Linked artifact'
       csmFile: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)/ARMTemplateForFactory.json'
       csmParametersFile: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)/ARMTemplateParametersForFactory.json'

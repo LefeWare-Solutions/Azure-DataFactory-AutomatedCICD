@@ -7,10 +7,9 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - name: adf_code_path
-    value: "$(Build.SourcesDirectory)/FactoryResources"
-  - name: adf_packages_file_path
-    value: "$(Build.SourcesDirectory)/DevOpsPipelines/"
+  location: 'centralus'
+  adf_code_path: "$(Build.SourcesDirectory)/FactoryResources"
+  adf_packages_file_path: "$(Build.SourcesDirectory)/DevOpsPipelines/"
 
 
 stages:
