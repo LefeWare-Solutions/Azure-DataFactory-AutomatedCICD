@@ -17,7 +17,7 @@ steps:
     inputs:
       command: 'custom'
       workingDir: '$(adf_packages_file_path)'
-      customCommand: 'run build validate $(adf_code_path) /subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(factoryName)'
+      customCommand: 'run build validate $(adf_code_path) /subscriptions/$(subscriptionId)/resourceGroups/$(dfResourceGroupName)/providers/Microsoft.DataFactory/factories/$(factoryName)'
     displayName: 'Validate'
 
   # Validate and then generate the ARM template into the destination folder, which is the same as selecting "Publish" from the UX.
@@ -26,7 +26,7 @@ steps:
     inputs:
       command: 'custom'
       workingDir: '$(adf_packages_file_path)'
-      customCommand: 'run build export $(adf_code_path) /subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)/providers/Microsoft.DataFactory/factories/$(factoryName) "ArmTemplate"'
+      customCommand: 'run build export $(adf_code_path) /subscriptions/$(subscriptionId)/resourceGroups/$(dfResourceGroupName)/providers/Microsoft.DataFactory/factories/$(factoryName) "ArmTemplate"'
     displayName: 'Validate and Generate ARM template'
 
   # Publish the artifact to be used as a source for a release pipeline.
