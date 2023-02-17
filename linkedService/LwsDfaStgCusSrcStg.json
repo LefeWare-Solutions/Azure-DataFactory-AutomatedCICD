@@ -1,0 +1,17 @@
+{
+	"name": "LwsDfaStgCusSrcStg",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LwsDfStgCusKv",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "Movie-StorageAccount-Stg-Key"
+			}
+		}
+	}
+}
