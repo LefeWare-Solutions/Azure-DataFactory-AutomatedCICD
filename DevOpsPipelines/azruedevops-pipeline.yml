@@ -54,9 +54,9 @@ stages:
     dependsOn: ["deploy_adf_dev"]
     variables:
       - name: resource_group_name
-        value: 'lws-goasy-test-cus-rg'
+        value: 'lws-dfanalytics-stg-cus-rg'
       - name: azure_data_factory_name
-        value: 'lws-goeasy-test-cus-factory'
+        value: 'lws-dfanalytics-stg-cus-df'
       - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
     jobs:
