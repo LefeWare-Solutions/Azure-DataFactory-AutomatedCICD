@@ -55,6 +55,3 @@ New-AzDataFactoryV2 -ResourceGroupName $resourceGroupName -Name $adfName -Locati
 # Add Access Policy for Data Factory to access KeyVault
 $adfObjectId = (Get-AzDataFactoryV2 -ResourceGroupName $resourceGroupName -Name $adfName).Identity.PrincipalId
 Set-AzKeyVaultAccessPolicy -VaultName $keyVaultName -ObjectId $adfObjectId -PermissionsToSecrets get
-
-
-# Create Azure Data Factory Linked Services for KeyVault and Storage using linked service file 
