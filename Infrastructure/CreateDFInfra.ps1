@@ -3,8 +3,7 @@ $location = "centralus"
 $environment = "dev"
 $resourceGroupName = "lws-cus-$($environment)-dfcicd-rg"
 
-$srcStorageAccountName = "lwscus$($environment)dfcicdstg1"
-$destStorageAccountName = "lwscus$($environment)dfcicdstg2"
+
 
 # Connect to Azure 
 Connect-AzAccount
@@ -15,14 +14,14 @@ Set-AzContext $context
 New-AzResourceGroup -Name $resourceGroupName -Location $location
 
 # Create Storage account
+$srcStorageAccountName = "lwscus$($environment)dfcicdstg1"
+$destStorageAccountName = "lwscus$($environment)dfcicdstg2"
 New-AzStorageAccount -ResourceGroupName $resourceGroupName `
   -Name $srcStorageAccountName `
   -Location $location `
   -SkuName Standard_LRS `
   -Kind StorageV2 `
   -AccessTier Hot
-
-
 New-AzStorageAccount -ResourceGroupName $resourceGroupName `
   -Name $destStorageAccountName `
   -Location $location `
@@ -39,7 +38,7 @@ Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "srcStorageAccountKey" -Secr
 Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "destStorageAccountKey" -SecretValue $destStorageAccountKey
 
 # Create Azure Data Factory
-$adfName = "lwscus$($environment)dfcicdadf"
+$adfName = "lws-cus-$($environment)-dfcicd-adf"
 New-AzDataFactoryV2 -ResourceGroupName $resourceGroupName -Name $adfName -Location $location
 
 # Add Access Policy for Data Factory to access KeyVault
