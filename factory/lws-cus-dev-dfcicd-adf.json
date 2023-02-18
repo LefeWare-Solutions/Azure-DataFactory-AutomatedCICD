@@ -1,0 +1,9 @@
+{
+	"name": "lws-cus-dev-dfcicd-adf",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0343628f-7057-4949-8814-ba268e8af70c",
+		"tenantId": "c3de2abb-7467-4fe5-98b1-9e0e3bc6a998"
+	}
+}
