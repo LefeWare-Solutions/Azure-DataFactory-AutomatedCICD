@@ -1,5 +1,5 @@
 {
-	"name": "AzStorageBlob1",
+	"name": "DevStorageLinkedService1",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobStorage",
@@ -7,10 +7,10 @@
 			"connectionString": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
-					"referenceName": "AzureKeyVault1",
+					"referenceName": "DevKeyVaultLinkedService1",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "Movie-StorageAccount-Key"
+				"secretName": "srcStorageAccountKey"
 			}
 		}
 	}

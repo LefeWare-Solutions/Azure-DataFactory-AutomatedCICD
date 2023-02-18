@@ -1,5 +1,5 @@
 {
-	"name": "LwsDfaStgCusSrcStg",
+	"name": "DevStorageLinkedService2",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobStorage",
@@ -7,10 +7,10 @@
 			"connectionString": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
-					"referenceName": "LwsDfStgCusKv",
+					"referenceName": "DevKeyVaultLinkedService1",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "Movie-StorageAccount-Stg-Key"
+				"secretName": "srcStorageAccountKey"
 			}
 		}
 	}
