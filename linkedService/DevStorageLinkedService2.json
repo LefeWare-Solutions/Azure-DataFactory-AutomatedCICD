@@ -10,7 +10,7 @@
 					"referenceName": "DevKeyVaultLinkedService1",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "srcStorageAccountKey"
+				"secretName": "destStorageAccountConnectionString"
 			}
 		}
 	}

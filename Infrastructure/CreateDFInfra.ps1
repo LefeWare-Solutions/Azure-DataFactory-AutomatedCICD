@@ -29,13 +29,24 @@ New-AzStorageAccount -ResourceGroupName $resourceGroupName `
   -Kind StorageV2 `
   -AccessTier Hot
 
-# Get storage account keys and create a keyvault to store them securely
-$srcStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $srcStorageAccountName)[0].Value
-$destStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $destStorageAccountName)[0].Value
+#Upload SampleCSVFile1.csv to Source Storage Account
+$srcStorageAccountContext = New-AzStorageContext -StorageAccountName $srcStorageAccountName -StorageAccountKey (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $srcStorageAccountName)[0].Value
+New-AzStorageContainer -Name "data" -Context $srcStorageAccountContext
+Set-AzStorageBlobContent -File "SampleCSVFile1.csv" -Container "data" -Blob "SampleCSVFile1.csv" -Context $srcStorageAccountContext
+
+#Create KeyVault
 $keyVaultName = "lwscus$($environment)dfcicdkeyvault"
 New-AzKeyVault -ResourceGroupName $resourceGroupName -VaultName $keyVaultName -Location $location -Sku Standard
-Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "srcStorageAccountKey" -SecretValue $srcStorageAccountKey
-Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "destStorageAccountKey" -SecretValue $destStorageAccountKey
+
+#Get storage account full connection strings and store them in keyvault
+$srcStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $srcStorageAccountName)[0].Value
+$destStorageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $destStorageAccountName)[0].Value
+$srcStorageAccountConnectionString = "DefaultEndpointsProtocol=https;AccountName=$srcStorageAccountName;AccountKey=$srcStorageAccountKey;EndpointSuffix=core.windows.net"
+$destStorageAccountConnectionString = "DefaultEndpointsProtocol=https;AccountName=$destStorageAccountName;AccountKey=$destStorageAccountKey;EndpointSuffix=core.windows.net"
+$srcStorageAccountConnectionString = ConvertTo-SecureString -String $srcStorageAccountConnectionString -AsPlainText -Force
+$destStorageAccountConnectionString = ConvertTo-SecureString -String $destStorageAccountConnectionString -AsPlainText -Force
+Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "srcStorageAccountConnectionString" -SecretValue $srcStorageAccountConnectionString
+Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "destStorageAccountConnectionString" -SecretValue $destStorageAccountConnectionString
 
 # Create Azure Data Factory
 $adfName = "lws-cus-$($environment)-dfcicd-adf"
