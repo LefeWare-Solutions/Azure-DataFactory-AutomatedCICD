@@ -1,6 +1,12 @@
 {
 	"name": "AzStorageBlob1",
 	"properties": {
+		"parameters": {
+			"KeyVaultValue": {
+				"type": "string",
+				"defaultValue": "test"
+			}
+		},
 		"annotations": [],
 		"type": "AzureBlobStorage",
 		"typeProperties": {
