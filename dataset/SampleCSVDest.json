@@ -5,6 +5,12 @@
 			"referenceName": "DevStorageLinkedService2",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"LinkedServiceName": {
+				"type": "string",
+				"defaultValue": "DevStorageLinkedService1"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
