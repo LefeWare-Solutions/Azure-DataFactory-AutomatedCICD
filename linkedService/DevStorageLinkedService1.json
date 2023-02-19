@@ -1,14 +1,25 @@
 {
 	"name": "DevStorageLinkedService1",
 	"properties": {
+		"parameters": {
+			"LS_KV_URL": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureBlobStorage",
 		"typeProperties": {
 			"connectionString": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
-					"referenceName": "DevKeyVaultLinkedService1",
-					"type": "LinkedServiceReference"
+					"referenceName": "AzureKeyVaultLinkedService",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"LS_KV": {
+							"value": "@linkedService().LS_KV_URL",
+							"type": "Expression"
+						}
+					}
 				},
 				"secretName": "srcStorageAccountConnectionString"
 			}
