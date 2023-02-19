@@ -2,8 +2,11 @@
 	"name": "SampleCSVSource",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "DevStorageLinkedService1",
-			"type": "LinkedServiceReference"
+			"referenceName": "AzureBlobStorageSource",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LV_KV_URL": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",

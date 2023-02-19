@@ -1,0 +1,29 @@
+{
+	"name": "AzureBlobStorageSource",
+	"properties": {
+		"parameters": {
+			"LV_KV_URL": {
+				"type": "string",
+				"defaultValue": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
+			}
+		},
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVaultLinkedService",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"LS_KV": {
+							"value": "linkedService().LS_KV_URL",
+							"type": "Expression"
+						}
+					}
+				},
+				"secretName": "srcStorageAccountConnectionString"
+			}
+		}
+	}
+}

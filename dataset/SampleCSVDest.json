@@ -2,8 +2,17 @@
 	"name": "SampleCSVDest",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "DevStorageLinkedService2",
-			"type": "LinkedServiceReference"
+			"referenceName": "AzureBlobStorageDest",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"LV_KV_URL": "https://lwscusstgdfcicdkeyvault.vault.azure.net/"
+			}
+		},
+		"parameters": {
+			"LinkedServiceName": {
+				"type": "string",
+				"defaultValue": "DevStorageLinkedService1"
+			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",

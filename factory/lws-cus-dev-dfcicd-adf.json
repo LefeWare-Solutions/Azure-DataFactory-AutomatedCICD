@@ -1,5 +1,13 @@
 {
 	"name": "lws-cus-dev-dfcicd-adf",
+	"properties": {
+		"globalParameters": {
+			"Env_Name": {
+				"type": "string",
+				"value": "dev"
+			}
+		}
+	},
 	"location": "centralus",
 	"identity": {
 		"type": "SystemAssigned",
