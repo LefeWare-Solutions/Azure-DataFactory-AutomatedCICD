@@ -1,0 +1,21 @@
+{
+	"name": "SampleCSVDest",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DevStorageLinkedService2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
