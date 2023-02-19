@@ -1,5 +1,6 @@
 {
 	"name": "AzureBlobStorageDest",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"parameters": {
 			"LV_KV_URL": {
