@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText1",
+	"name": "SampleCSVDest",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "DevStorageLinkedService2",

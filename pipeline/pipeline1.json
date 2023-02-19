@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "CopyData1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -55,7 +55,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "SampleCSVDest",
 						"type": "DatasetReference"
 					}
 				]
