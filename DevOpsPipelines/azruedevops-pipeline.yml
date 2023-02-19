@@ -8,7 +8,7 @@ pool:
 
 variables:
   location: 'centralus'
-  adf_code_path: "$(Build.SourcesDirectory)/FactoryResources"
+  adf_code_path: "$(Build.SourcesDirectory)"
   adf_packages_file_path: "$(Build.SourcesDirectory)/DevOpsPipelines/"
 
 
