@@ -1,10 +1,10 @@
 {
 	"name": "AzureKeyVaultLinkedService",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"parameters": {
 			"LS_KV": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "lwscusdevdfcicdkeyvault"
 			}
 		},
 		"annotations": [],
@@ -12,5 +12,6 @@
 		"typeProperties": {
 			"baseUrl": "@{linkedService().LS_KV}"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
