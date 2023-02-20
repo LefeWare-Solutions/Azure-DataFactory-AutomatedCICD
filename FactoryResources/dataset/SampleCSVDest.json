@@ -5,7 +5,7 @@
 			"referenceName": "AzureBlobStorageDest",
 			"type": "LinkedServiceReference",
 			"parameters": {
-				"LV_KV_URL": "https://lwscusstgdfcicdkeyvault.vault.azure.net/"
+				"LV_KV_URL": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
 			}
 		},
 		"parameters": {
