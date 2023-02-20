@@ -1,11 +1,10 @@
 {
 	"name": "AzureBlobStorageDest",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"parameters": {
 			"LV_KV_URL": {
 				"type": "string",
-				"defaultValue": "https://lwscusstgdfcicdkeyvault.vault.azure.net/"
+				"defaultValue": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
 			}
 		},
 		"annotations": [],
@@ -26,5 +25,6 @@
 				"secretName": "destStorageAccountConnectionString"
 			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
