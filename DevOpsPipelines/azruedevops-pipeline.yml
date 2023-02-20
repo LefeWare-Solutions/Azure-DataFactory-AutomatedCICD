@@ -39,7 +39,7 @@ stages:
       - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
       - name: keyVaultBaeUrl
-        value: 'lwscusdevdfcicdkeyvault'
+        value: 'https://lwscusdevdfcicdkeyvault.vault.azure.net/'
     jobs:
       - deployment: 'dev'
         environment: 'dev'
@@ -62,7 +62,7 @@ stages:
       - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
       - name: keyVaultBaeUrl
-        value: 'lwscusstgdfcicdkeyvault'        
+        value: 'https://lwscusstgdfcicdkeyvault.vault.azure.net/'        
     jobs:
       - deployment: 'stg'
         environment: 'stg'
@@ -72,4 +72,4 @@ stages:
               steps:
                 - template: ./cd-pipeline.yml
                   parameters:
-                    serviceConnectionName: lws-poc-ado-sp                     
+                    serviceConnectionName: lws-poc-ado-sp #You would likely use a different service connection for each environment                     
