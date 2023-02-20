@@ -4,7 +4,7 @@
 		"parameters": {
 			"LS_KV": {
 				"type": "string",
-				"defaultValue": "lwscusdevdfcicdkeyvault"
+				"defaultValue": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
 			}
 		},
 		"annotations": [],
