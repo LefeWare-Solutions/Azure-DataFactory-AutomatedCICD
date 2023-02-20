@@ -17,7 +17,7 @@
 					"type": "LinkedServiceReference",
 					"parameters": {
 						"LS_KV": {
-							"value": "linkedService().LS_KV_URL",
+							"value": "@linkedService().LV_KV_URL",
 							"type": "Expression"
 						}
 					}
