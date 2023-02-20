@@ -38,6 +38,8 @@ stages:
         value: 'lws-cus-dev-dfcicd-adf'
       - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+      - name: keyVaultBaeUrl
+        value: 'lwscusdevdfcicdkeyvault'
     jobs:
       - deployment: 'dev'
         environment: 'dev'
@@ -59,6 +61,8 @@ stages:
         value: 'lws-cus-stg-dfcicd-adf'
       - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
+      - name: keyVaultBaeUrl
+        value: 'lwscusstgdfcicdkeyvault'        
     jobs:
       - deployment: 'stg'
         environment: 'stg'

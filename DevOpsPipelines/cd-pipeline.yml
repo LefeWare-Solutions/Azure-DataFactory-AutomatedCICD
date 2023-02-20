@@ -29,7 +29,7 @@ steps:
       templateLocation: 'Linked artifact'
       csmFile: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)/ARMTemplateForFactory.json'
       csmParametersFile: '$(Pipeline.Workspace)/ADF-ARMTemplates-$(Build.BuildNumber)/ARMTemplateParametersForFactory.json'
-      overrideParameters: '-factoryName "$(azure_data_factory_name)"'
+      overrideParameters: '-factoryName "$(azure_data_factory_name)" -AzureKeyVaultLinkedService_properties_typeProperties_baseUrl "$(keyVaultBaeUrl)"'
       deploymentMode: 'Incremental'
 
   # - task: toggle-adf-trigger@2
