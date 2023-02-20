@@ -56,7 +56,10 @@
 				"outputs": [
 					{
 						"referenceName": "SampleCSVDest",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"LinkedServiceName": "DevStorageLinkedService1"
+						}
 					}
 				]
 			}
