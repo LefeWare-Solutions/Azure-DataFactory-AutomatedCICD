@@ -21,7 +21,7 @@ stages:
       - name: dfResourceGroupName
         value: 'lws-cus-dev-dfcicd-rg'
       - name: factoryName 
-        value: 'lws-cus-dev-dfcicd-adf'
+        value: 'lws-cus-dev-dfcicd-synspase'
     jobs:
       - job: 'ci'
         steps:
@@ -35,7 +35,7 @@ stages:
       - name: resource_group_name
         value: 'lws-cus-dev-dfcicd-rg'
       - name: azure_data_factory_name
-        value: 'lws-cus-dev-dfcicd-adf'
+        value: 'lws-cus-dev-dfcicd-synapse'
       - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
       - name: keyVaultBaeUrl
@@ -58,7 +58,7 @@ stages:
       - name: resource_group_name
         value: 'lws-cus-stg-dfcicd-rg'
       - name: azure_data_factory_name
-        value: 'lws-cus-stg-dfcicd-adf'
+        value: 'lws-cus-stg-dfcicd-synapse'
       - name: azureSubscriptionId
         value: 'ead6231b-67c2-496c-a2e5-d2ee7fb3491a'
       - name: keyVaultBaeUrl
