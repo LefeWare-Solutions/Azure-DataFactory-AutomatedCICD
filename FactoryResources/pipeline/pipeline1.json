@@ -64,7 +64,7 @@
 				]
 			},
 			{
-				"name": "Wait1",
+				"name": "Wait-Test",
 				"type": "Wait",
 				"dependsOn": [],
 				"userProperties": [],
