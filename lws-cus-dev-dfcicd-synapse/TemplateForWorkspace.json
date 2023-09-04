@@ -27,6 +27,10 @@
 		"lws-cus-dev-dfcicd-synapse-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://lwscusdevdfcicddl.dfs.core.windows.net"
+		},
+		"nyc_tlc_yellow_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'nyc_tlc_yellow'"
 		}
 	},
 	"variables": {
@@ -349,6 +353,19 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/nyc_tlc_yellow')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": "[parameters('nyc_tlc_yellow_sasUri')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
 			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
 			"apiVersion": "2019-06-01-preview",
@@ -403,12 +420,52 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"content": {
-					"query": "CREATE DATABASE YellowTaxi\nGO \n\n\n-- Create a Credentail for ADLS using MSI\nCREATE CREDENTIAL [https://sfmarc3cusbstgsdataanaly.dfs.core.windows.net]\nWITH IDENTITY='Managed Identity'\nGO\n\n-- Grant Credential access for MARCAdmin User\nGRANT REFERENCES ON CREDENTIAL::[https://sfmarc3cusbstgsdataanaly.dfs.core.windows.net] TO [MARCAdmin];\nGO",
+					"query": "SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://azureopendatastorage.blob.core.windows.net/nyctlc/yellow/puYear=*/puMonth=*/*.parquet',\n        FORMAT = 'parquet'\n    ) AS [result];",
 					"metadata": {
 						"language": "sql"
 					},
 					"currentConnection": {
 						"databaseName": "YellowTaxiData",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 2')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "\n\nSELECT *\nFROM OPENROWSET(\n   BULK 'https://lwscusdevdfcicddl.dfs.core.windows.net/yellowtaxidata/yellow_tripdata_2023-01.parquet',\n   FORMAT = 'PARQUET',\n   WITH (\n       pickup_datetime DATETIME,\n       dropoff_datetime DATETIME,\n       passenger_count INT,\n       trip_distance FLOAT,\n       fare_amount MONEY\n   )\n) AS [Result];\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 3')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- This is auto-generated code\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
 						"poolName": "Built-in"
 					},
 					"resultLimit": 5000
@@ -434,7 +491,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "058362cd-dc0e-449e-965a-f9fcc9b9d8a2"
+						"spark.autotune.trackingId": "bf57ee3e-0f76-4235-a048-041b0712d154"
 					}
 				},
 				"metadata": {
@@ -452,7 +509,6 @@
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"print(\"This line will be printed.\")"
 						],

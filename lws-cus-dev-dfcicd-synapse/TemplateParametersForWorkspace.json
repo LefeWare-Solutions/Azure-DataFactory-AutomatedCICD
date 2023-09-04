@@ -19,6 +19,9 @@
 		},
 		"lws-cus-dev-dfcicd-synapse-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://lwscusdevdfcicddl.dfs.core.windows.net"
+		},
+		"nyc_tlc_yellow_sasUri": {
+			"value": ""
 		}
 	}
 }
