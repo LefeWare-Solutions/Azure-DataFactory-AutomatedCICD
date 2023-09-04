@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "\n\nSELECT *\nFROM OPENROWSET(\n   BULK 'https://lwscusdevdfcicddl.dfs.core.windows.net/yellowtaxidata/yellow_tripdata_2023-01.parquet',\n   FORMAT = 'PARQUET',\n   WITH (\n       pickup_datetime DATETIME,\n       dropoff_datetime DATETIME,\n       passenger_count INT,\n       trip_distance FLOAT,\n       fare_amount MONEY\n   )\n) AS [Result];\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
