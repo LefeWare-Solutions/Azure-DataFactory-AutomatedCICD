@@ -1,0 +1,421 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"type": "string",
+			"metadata": "Workspace name",
+			"defaultValue": "lws-cus-dev-dfcicd-synapse"
+		},
+		"lws-cus-dev-dfcicd-synapse-WorkspaceDefaultSqlServer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lws-cus-dev-dfcicd-synapse-WorkspaceDefaultSqlServer'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:lws-cus-dev-dfcicd-synapse.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"AzureBlobStorageDest_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "destStorageAccountConnectionString"
+		},
+		"AzureBlobStorageSource_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "srcStorageAccountConnectionString"
+		},
+		"AzureKeyVaultLinkedService_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "@{linkedService().LS_KV}"
+		},
+		"lws-cus-dev-dfcicd-synapse-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://lwscusdevdfcicddl.dfs.core.windows.net"
+		}
+	},
+	"variables": {
+		"workspaceId": "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('workspaceName'), '/pipeline1')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyData1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SampleCSVSource",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SampleCSVDest",
+								"type": "DatasetReference",
+								"parameters": {
+									"LinkedServiceName": "DevStorageLinkedService1"
+								}
+							}
+						]
+					},
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SampleCSVSource')]",
+				"[concat(variables('workspaceId'), '/datasets/SampleCSVDest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SampleCSVDest')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorageDest",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"LV_KV_URL": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
+					}
+				},
+				"parameters": {
+					"LinkedServiceName": {
+						"type": "string",
+						"defaultValue": "DevStorageLinkedService1"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/AzureBlobStorageDest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SampleCSVSource')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorageSource",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"LV_KV_URL": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "SampleCSVFile1.csv",
+						"container": "data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					},
+					{
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/AzureBlobStorageSource')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AzureBlobStorageDest')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"LV_KV_URL": {
+						"type": "string",
+						"defaultValue": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
+					}
+				},
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVaultLinkedService",
+							"type": "LinkedServiceReference",
+							"parameters": {
+								"LS_KV": {
+									"value": "@linkedService().LV_KV_URL",
+									"type": "Expression"
+								}
+							}
+						},
+						"secretName": "[parameters('AzureBlobStorageDest_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/AzureKeyVaultLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AzureBlobStorageSource')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"LV_KV_URL": {
+						"type": "string",
+						"defaultValue": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
+					}
+				},
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVaultLinkedService",
+							"type": "LinkedServiceReference",
+							"parameters": {
+								"LS_KV": {
+									"value": "@linkedService().LV_KV_URL",
+									"type": "Expression"
+								}
+							}
+						},
+						"secretName": "[parameters('AzureBlobStorageSource_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/AzureKeyVaultLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AzureKeyVaultLinkedService')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"LS_KV": {
+						"type": "string",
+						"defaultValue": "https://lwscusdevdfcicdkeyvault.vault.azure.net/"
+					}
+				},
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVaultLinkedService_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/lws-cus-dev-dfcicd-synapse-WorkspaceDefaultSqlServer')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"parameters": {
+					"DBName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('lws-cus-dev-dfcicd-synapse-WorkspaceDefaultSqlServer_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/lws-cus-dev-dfcicd-synapse-WorkspaceDefaultStorage')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('lws-cus-dev-dfcicd-synapse-WorkspaceDefaultStorage_properties_typeProperties_url')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
+			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "AutoResolve",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 0
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/WorkspaceSystemIdentity')]",
+			"type": "Microsoft.Synapse/workspaces/credentials",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "ManagedIdentity",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CreateExternalDataTable')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE EXTERNAL DATA SOURCE mysynapsedatalake \nWITH ( LOCATION = 'abfss://yellowtaxidata@lwscusdevdfcicddl.dfs.core.windows.net' );\n\nCREATE EXTERNAL FILE FORMAT ParquetFormat \nWITH ( FORMAT_TYPE = PARQUET);\n\n-- This is auto-generated code\nCREATE EXTERNAL TABLE taxi_data (\n    VendorID string, \n    tpep_pickup_datetime string, \n    tpep_dropoff_datetime string,\n    passenger_count int,\n    trip_distance double, \n    fare_amount double\n) WITH ( \n    LOCATION = '/yellowtaxidata',\n    DATA_SOURCE = mysynapsedatalake,\n    FILE_FORMAT = ParquetFormat\n)",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "YellowTaxiData",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE DATABASE YellowTaxi\nGO \n\n\n-- Create a Credentail for ADLS using MSI\nCREATE CREDENTIAL [https://sfmarc3cusbstgsdataanaly.dfs.core.windows.net]\nWITH IDENTITY='Managed Identity'\nGO\n\n-- Grant Credential access for MARCAdmin User\nGRANT REFERENCES ON CREDENTIAL::[https://sfmarc3cusbstgsdataanaly.dfs.core.windows.net] TO [MARCAdmin];\nGO",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "YellowTaxiData",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		}
+	]
+}

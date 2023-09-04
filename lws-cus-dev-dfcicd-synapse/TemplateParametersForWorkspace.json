@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "lws-cus-dev-dfcicd-synapse"
+		},
+		"lws-cus-dev-dfcicd-synapse-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:lws-cus-dev-dfcicd-synapse.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"AzureBlobStorageDest_properties_typeProperties_connectionString_secretName": {
+			"value": "destStorageAccountConnectionString"
+		},
+		"AzureBlobStorageSource_properties_typeProperties_connectionString_secretName": {
+			"value": "srcStorageAccountConnectionString"
+		},
+		"AzureKeyVaultLinkedService_properties_typeProperties_baseUrl": {
+			"value": "@{linkedService().LS_KV}"
+		},
+		"lws-cus-dev-dfcicd-synapse-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://lwscusdevdfcicddl.dfs.core.windows.net"
+		}
+	}
+}
