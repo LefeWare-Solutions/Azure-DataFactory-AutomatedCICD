@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "CREATE DATABASE YellowTaxi\nGO \n\n\n-- Create a Credentail for ADLS using MSI\nCREATE CREDENTIAL [https://sfmarc3cusbstgsdataanaly.dfs.core.windows.net]\nWITH IDENTITY='Managed Identity'\nGO\n\n-- Grant Credential access for MARCAdmin User\nGRANT REFERENCES ON CREDENTIAL::[https://sfmarc3cusbstgsdataanaly.dfs.core.windows.net] TO [MARCAdmin];\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "YellowTaxiData",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
