@@ -8,6 +8,9 @@
 		"lws-cus-dev-dfcicd-synapse-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:lws-cus-dev-dfcicd-synapse.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
+		"AdventureWorks Products_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/MicrosoftLearning/DP-900T00A-Azure-Data-Fundamentals/master/Azure-Synapse/products.csv"
+		},
 		"AzureBlobStorageDest_properties_typeProperties_connectionString_secretName": {
 			"value": "destStorageAccountConnectionString"
 		},
