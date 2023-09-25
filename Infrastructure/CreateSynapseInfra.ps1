@@ -3,7 +3,7 @@ $location = "centralus"
 $locationShort = "cus"
 $environmentShort = "dev"
 $orgNameShort = "lws" 
-$appName = "dfcicd"
+$appName = "data"
 $resourceGroupName = "$($orgNameShort)-$($locationShort)-$($environmentShort)-$($appName)-rg"
 
 # Connect to Azure and Set Current Subscription Context
