@@ -1,7 +1,7 @@
 $subscriptionName = 'LefeWareSolutions-POC'
 $location = "centralus"
 $locationShort = "cus"
-$environmentShort = "stg"
+$environmentShort = "dev"
 $orgNameShort = "lws" 
 $appName = "dfcicd"
 $resourceGroupName = "$($orgNameShort)-$($locationShort)-$($environmentShort)-$($appName)-rg"
@@ -42,7 +42,7 @@ Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "destStorageAccountConnectio
 # Create Azure Synapse Workspace
 $synapseName = "$($orgNameShort)-$($locationShort)-$($environmentShort)-$($appName)-synapse"
 $dataLakeName = "$($orgNameShort)$($locationShort)$($environmentShort)$($appName)dl"
-$defaultDataLakeStorageFilesystem = "ContosoFileSystem"
+$defaultDataLakeStorageFilesystem = "contosofilesystem"
 $password = ConvertTo-SecureString "Password123!" -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential ("ContosoUser", $password)
 New-AzSynapseWorkspace -ResourceGroupName $resourceGroupName -Name $synapseName -Location $location -DefaultDataLakeStorageAccountName $dataLakeName -DefaultDataLakeStorageFilesystem  $defaultDataLakeStorageFilesystem -SqlAdministratorLoginCredential  $creds
