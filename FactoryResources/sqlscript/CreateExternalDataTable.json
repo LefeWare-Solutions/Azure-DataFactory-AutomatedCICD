@@ -1,0 +1,17 @@
+{
+	"name": "CreateExternalDataTable",
+	"properties": {
+		"content": {
+			"query": "CREATE EXTERNAL DATA SOURCE mysynapsedatalake \nWITH ( LOCATION = 'abfss://yellowtaxidata@lwscusdevdfcicddl.dfs.core.windows.net' );\n\nCREATE EXTERNAL FILE FORMAT ParquetFormat \nWITH ( FORMAT_TYPE = PARQUET);\n\n-- This is auto-generated code\nCREATE EXTERNAL TABLE taxi_data (\n    VendorID string, \n    tpep_pickup_datetime string, \n    tpep_dropoff_datetime string,\n    passenger_count int,\n    trip_distance double, \n    fare_amount double\n) WITH ( \n    LOCATION = '/yellowtaxidata',\n    DATA_SOURCE = mysynapsedatalake,\n    FILE_FORMAT = ParquetFormat\n)",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "YellowTaxiData",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
