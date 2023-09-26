@@ -39,9 +39,13 @@ $destStorageAccountConnectionString = ConvertTo-SecureString -String $destStorag
 Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "srcStorageAccountConnectionString" -SecretValue $srcStorageAccountConnectionString
 Set-AzKeyVaultSecret -VaultName $keyVaultName -Name "destStorageAccountConnectionString" -SecretValue $destStorageAccountConnectionString
 
+#Create DataLake
+$dataLakeName = "$($orgNameShort)$($locationShort)$($environmentShort)$($appName)dl"
+New-AzStorageAccount -ResourceGroupName $resourceGroupName -Name $dataLakeName -Location $location -SkuName Standard_LRS -Kind StorageV2 -EnableHierarchicalNamespace $true
+
+
 # Create Azure Synapse Workspace
 $synapseName = "$($orgNameShort)-$($locationShort)-$($environmentShort)-$($appName)-synapse"
-$dataLakeName = "$($orgNameShort)$($locationShort)$($environmentShort)$($appName)dl"
 $defaultDataLakeStorageFilesystem = "contosofilesystem"
 $password = ConvertTo-SecureString "Password123!" -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential ("ContosoUser", $password)
